@@ -39,52 +39,33 @@ def get_files(path):
             file_dict.update({name: file_type})
     return file_dict
 
+app = FastAPI()
+mysql_handler = mysql_handler(mysql_name, mysql_password, mysql_host, mysql_port, mysql_db)
 
-class api:
-    def __init__(self, host, port, mysql_instance):
-        self.host = host
-        self.port = port
-        self.app = FastAPI()
-        self.mysql_instance = mysql_instance
-
-    async def get_path(self, request : Request):
+@app.post("/get_path")
+async def get_path(request : Request):
         json_raw = await request.json()
         path = json.loads(json.dump(json_raw)).get("path")
         file_dict = get_files(path)
         file_names = list(file_dict.keys())
         types = list(file_dict.values())
         return {"file_names": file_names, "types": types}
-
-    
-    async def get_data(self, request : Request):
+@app.post("/get_data")
+async def get_data(request : Request):
         json_raw = await request.json()
-        search_df = self.mysql_instance.search_data('files_data')
+        search_df = mysql_handler.mysql_instance.search_data('files_data')
         return json.loads(search_df.to_json(orient='records',force_ascii=False))
 
-    
-    async def update_data(self, request : Request):
+@app.post("/update_data")
+async def update_data(request : Request):
         json_raw = await request.json()
-        judgement = self.mysql_instance.update_data('files_data')
+        data = json.loads(json.dump(json_raw)).get("data")
+        judgement = mysql_handler.update_data('files_data',data)
         if judgement:
             return {"status": "success"}
         else:
             return {"status": "fail"}
+
     
-    def run(self):
-        @self.app.post("/get_path")
-        async def get_path_wrapper(request: Request):
-            return await self.get_path(request)
-
-        @self.app.post("/get_data")
-        async def get_data_wrapper(request: Request):
-            return await self.get_data(request)
-
-        @self.app.post("/update_data")
-        async def update_data_wrapper(request: Request):
-            return await self.update_data(request)
-        uvicorn.run(self.app, host=self.host, port=self.port)
-
 if __name__ == '__main__':
-    mysql_handler = mysql_handler(mysql_name, mysql_password, mysql_host, mysql_port, mysql_db)
-    Myapi = api("127.0.0.1", 8000, mysql_handler)
-    Myapi.run()
+    uvicorn.run(app, host = "127.0.0.1", port=8000)
