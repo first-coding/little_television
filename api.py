@@ -39,6 +39,9 @@ def get_files(path):
             file_dict.update({name: file_type})
     return file_dict
 
+
+#未封装的代码：
+
 app = FastAPI()
 mysql_handler = mysql_handler(mysql_name, mysql_password, mysql_host, mysql_port, mysql_db)
 
@@ -65,7 +68,46 @@ async def update_data(request : Request):
             return {"status": "success"}
         else:
             return {"status": "fail"}
+        
+# 封装的代码：
+class api:
+    def __init__(self, mysql_instance):
+        self.app = FastAPI()
+        self.mysql_instance = mysql_instance
+        @self.app.post("/get_path")
+        async def get_path(request: Request):
+            json_raw = await request.json()
+            path = json.loads(json.dumps(json_raw)).get("path")
+            file_dict = get_files(path)
+            file_names = list(file_dict.keys())
+            types = list(file_dict.values())
+            return {"file_names": file_names, "types": types}
+
+        @self.app.post("/get_data")
+        async def get_data(request: Request):
+            json_raw = await request.json()
+            search_df = self.mysql_instance.mysql_instance.search_data('files_data')
+            return json.loads(search_df.to_json(orient='records',force_ascii=False))
+
+        @self.app.post("/update_data")
+        async def update_data(request: Request):
+            json_raw = await request.json()
+            data = json.loads(json.dumps(json_raw)).get("data")
+            judgement = self.mysql_instance.update_data('files_data',data)
+            if judgement:
+                return {"status": "success"}
+            else:
+                return {"status": "fail"}
 
     
 if __name__ == '__main__':
-    uvicorn.run(app, host = "127.0.0.1", port=8000)
+    # 封装运行
+    uvicorn.run(app, host = "127.0.0.1", port = 8000)
+    # 未封装运行
+    # mysql_instance = mysql_handler(mysql_name, mysql_password, mysql_host, mysql_port, mysql_db)
+    # api_instance = api(mysql_instance)
+    # uvicorn.run(api_instance.app, host = "127.0.0.1", port = 8000)
+
+
+
+
