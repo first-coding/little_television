@@ -1,0 +1,20 @@
+#thumbnailsWrapper {
+    border: 2px solid #000;
+    padding: 2%; /* 设置外部框相对于视口宽度的内边距 */
+    display: inline-block;
+    width: 96%; /* 设置外部框宽度为视口宽度的 96% */
+    box-sizing: border-box; /* 盒子模型设置为边框盒 */
+    
+}
+.thumbnail {
+    display: inline-block;
+    margin: 1%; /* 设置缩略图相对于外部框的外边距 */
+    width: 30%; /* 设置缩略图宽度为外部框宽度的 30% */
+    box-sizing: border-box; /* 盒子模型设置为边框盒 */
+    cursor: pointer; /* 鼠标指针设置为手型 */
+}
+.thumbnail video {
+    width: 100%; /* 设置视频元素宽度为缩略图宽度的 100% */
+    height: auto; /* 高度自适应 */
+}
+
