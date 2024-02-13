@@ -45,7 +45,7 @@ mysql_handler = mysql_handler(mysql_name, mysql_password, mysql_host, mysql_port
 @app.post("/get_path")
 async def get_path(request : Request):
         json_raw = await request.json()
-        path = json.loads(json.dump(json_raw)).get("path")
+        path = json.loads(json.dumps(json_raw)).get("path")
         file_dict = get_files(path)
         file_names = list(file_dict.keys())
         types = list(file_dict.values())
@@ -59,7 +59,7 @@ async def get_data(request : Request):
 @app.post("/update_data")
 async def update_data(request : Request):
         json_raw = await request.json()
-        data = json.loads(json.dump(json_raw)).get("data")
+        data = json.loads(json.dumps(json_raw)).get("data")
         judgement = mysql_handler.update_data('files_data',data)
         if judgement:
             return {"status": "success"}
