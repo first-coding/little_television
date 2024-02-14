@@ -2,7 +2,8 @@
 var serverResponse = JSON.parse(sessionStorage.getItem('serverResponse'));
 var thumbnailsWrapper = document.getElementById('thumbnailsWrapper');
 var editPanel = document.getElementById('editPanel');
-
+var username = sessionStorage.getItem('username');
+console.log(username)
 if (serverResponse && serverResponse.file_names && serverResponse.types && serverResponse.file_names.length === serverResponse.types.length) {
     // 创建大框容器
     var wrapperDiv = document.createElement('div');
