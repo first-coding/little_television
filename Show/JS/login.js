@@ -31,7 +31,32 @@ document.getElementById('login').addEventListener('submit', function (e) {
                     // document.cookie = "username=" + encodeURIComponent(formData.user_id) + "; expires=Fri, 31 Dec 9999 23:59:59 GMT";
                     sessionStorage.setItem('username', formData.user_id);
                     // 提交成功后重定向到另一个页面
-                    window.location.href = "index.html";
+                    var formData2 = {
+                        user_id: sessionStorage.getItem('username'),
+                        table: "history"
+                    };
+
+                    var jsonData2 = JSON.stringify(formData2); // 将表单数据转换为 JSON 格式
+                    var xhr2 = new XMLHttpRequest();
+                    xhr2.open("POST", "http://127.0.0.1:8000/get_data", true);
+                    xhr2.setRequestHeader("Content-Type", "application/json");
+
+                    xhr2.onreadystatechange = function () {
+                        if (xhr2.readyState === XMLHttpRequest.DONE) {
+                            if (xhr2.status === 200) {
+                                var response = JSON.parse(xhr2.responseText);
+                                console.log('Response:', response);
+                                // 将服务器响应存储在本地存储中
+                                sessionStorage.setItem('history_data', JSON.stringify(response));
+                                // 提交成功后重定向到另一个页面
+                                window.location.href = "index.html";
+                            } else {
+                                console.error('Error:', xhr2.statusText);
+                            }
+                        }
+                    };
+
+                    xhr2.send(jsonData2);
                 }
                 else if (response['status'] == "用户名不存在") {
                     document.getElementById('loginMessage').innerText = "用户名不存在";

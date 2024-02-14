@@ -5,10 +5,15 @@ body {
     justify-content: center;
     height: 100vh;
     margin: 0;
+    background-image: url('./img/1.jpg'); /* 设置背景图片 */
+    background-size: cover; /* 图片大小适应屏幕 */
+    background-position: center; /* 图片居中显示 */
+    backdrop-filter: blur(4px); /* 背景图片模糊度 */
 }
 
 h1 {
     margin-bottom: 20px;
+    color:#873436
 }
 
 .video-container {

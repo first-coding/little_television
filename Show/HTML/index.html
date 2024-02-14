@@ -1,20 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Input Form</title>
 </head>
 <link rel="stylesheet" href="../CSS/styles.css">
+
 <body>
+    <div class="form-container" id="loginForm">
+        <h2>Path Selection</h2>
+        <form id="myForm">
+            <input list="options" type="text" id="inputField" name="inputField">
+            <datalist id="options">
+            </datalist>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
 
-<form id="myForm">
-    <label for="inputField">Input:</label>
-    <input type="text" id="inputField" name="inputField">
-    <button type="submit">Submit</button>
-</form>
-
-<script src="../JS/script.js"></script>
+    <script src="../JS/script.js"></script>
 
 </body>
+
 </html>

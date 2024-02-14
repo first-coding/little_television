@@ -7,8 +7,24 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh; /* 使容器铺满整个视口高度 */
+    background-image: url('./img/3.jpg'); 
+    background-size: cover; /* 图片大小适应屏幕 */
+    background-position: center; /* 图片居中显示 */
+    backdrop-filter: blur(1px); /* 背景图片模糊度 */
   }
   
+  .form-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+
+.form-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
   .container {
     width: 80%;
     text-align: center;
@@ -17,7 +33,7 @@ body {
   button {
     padding: 10px 20px;
     font-size: 16px;
-    background-color: #3498db;
+    background-color: #4caf50;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -25,21 +41,33 @@ body {
   }
   
   button:hover {
-    background-color: #2980b9;
+    background-color: #45a049;
   }
   
-  ul {
-    list-style-type: none;
-    padding: 0;
+  input[type="text"],
+  input[type="submit"] {
+      width: calc(70% - 22px); /* 设置输入框和按钮的宽度为一半 */
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+      margin-right: 10px; /* 增加右边间距 */
+      margin-bottom: 10px; /* 增加底部间距 */
   }
   
-  li {
-    margin-bottom: 5px;
+  input[type="text"]:focus,
+  input[type="submit"]:focus {
+      outline: none; /* 移除输入框和按钮的默认边框 */
   }
   
-  a {
-    text-decoration: none;
-    color: blue;
-    cursor: pointer;
+  input[type="submit"] {
+      background-color: #4caf50;
+      color: #fff;
+      border: none;
+      cursor: pointer;
   }
   
+  input[type="submit"]:hover {
+      background-color: #45a049;
+  }

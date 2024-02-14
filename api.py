@@ -24,7 +24,7 @@ class mysql_handler:
         return final_string
     def search_data(self, table_name, user_id):
         engine = create_engine(self.url)
-        query_search = f"select * from {table_name} where user_id = {user_id}"
+        query_search = f"select * from {table_name} where user_id = '{user_id}'"
         search_df = pd.read_sql_query(query_search, engine)
         return search_df
     

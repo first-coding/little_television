@@ -6,7 +6,10 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f0f0f0;
+    background-image: url('./img/2.jpg'); 
+    background-size: cover; /* 图片大小适应屏幕 */
+    background-position: center; /* 图片居中显示 */
+    backdrop-filter: blur(0.5px); /* 背景图片模糊度 */
 }
 
 .form-container {

@@ -1,20 +1,85 @@
-#thumbnailsWrapper {
-    border: 2px solid #000;
-    padding: 2%; /* 设置外部框相对于视口宽度的内边距 */
-    display: inline-block;
-    width: 96%; /* 设置外部框宽度为视口宽度的 96% */
-    box-sizing: border-box; /* 盒子模型设置为边框盒 */
+body {
+    background-color: rgb(245, 245, 245)
+    margin: 0; /* 重置默认的页面边距 */
+    padding: 0; /* 重置默认的页面内边距 */
+}
+.container{
+    width: 100%;
     
 }
+
+h1,h2{
+    text-align: center; /* 让标题文本居中 */
+}
+#thumbnailsWrapper {
+    float: left;
+    width: 100%;
+    box-sizing: border-box;
+}
+#thumbnailsWrapper2{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    max-height: 85vh; /* 设置最大高度 */
+    overflow-y: auto; /* 添加垂直滚动条 */
+    overflow-x: hidden; /* 隐藏水平滚动条 */
+    padding-right: 17px; /* 考虑垂直滚动条宽度 */
+    justify-content: space-around;
+    border: 2px solid #000;
+    padding: 2%; /* 设置外部框相对于视口宽度的内边距 */
+    width: 100%; /* 设置外部框宽度为视口宽度的 96% */
+    box-sizing: border-box; /*盒子模型设置为边框盒*/
+}
+
+
 .thumbnail {
-    display: inline-block;
-    margin: 1%; /* 设置缩略图相对于外部框的外边距 */
     width: 30%; /* 设置缩略图宽度为外部框宽度的 30% */
-    box-sizing: border-box; /* 盒子模型设置为边框盒 */
+    box-sizing: border-box; /*盒子模型设置为边框盒*/
     cursor: pointer; /* 鼠标指针设置为手型 */
+    margin-top: 2%;
 }
 .thumbnail video {
     width: 100%; /* 设置视频元素宽度为缩略图宽度的 100% */
     height: auto; /* 高度自适应 */
 }
 
+/* 编辑框 */
+/* #editPanel{
+    float:left;
+    width: 25%;
+    height: 85vh; 或者根据需要调整
+    margin-left:45px;
+    background-color: lightgray;
+    box-sizing: border-box;
+    display: none;
+} */
+
+#editPanel {
+    display: none;
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
+    float: left;
+    width: 25%;
+    height: 85vh;
+    margin-left: 45px;
+    background-color:rgb(230, 230, 230);
+    box-sizing: border-box;
+    text-align: right;
+}
+#editTextarea {
+    width: 90%; /* 让textarea宽度自适应editPanel */
+    height: 80%; /* 让textarea高度自适应editPanel */
+    resize: none; /* 禁止用户调整textarea大小 */
+    box-sizing: border-box; /* 让宽度包括padding和border */
+    margin-right: 4.8%;
+}
+#saveButton{
+    margin-right: 4.8%;
+    padding: 10px 25px;
+    background-color: #5DBC62;
+    border-radius: 10%;
+    border: 0;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+}
