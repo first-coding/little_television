@@ -164,4 +164,43 @@ document.addEventListener("DOMContentLoaded", function () {
 
         xhr.send(jsonData);
     });
+
+    var formData_history = {
+        user_id: sessionStorage.getItem('username'),
+        table: "history"
+    };
+    var jsonData_history = JSON.stringify(formData_history); // 将表单数据转换为 JSON 格式
+    var xhr_history = new XMLHttpRequest();
+    xhr_history.open("POST", "http://127.0.0.1:8000/get_data", true);
+    xhr_history.setRequestHeader("Content-Type", "application/json");
+
+    xhr_history.onreadystatechange = function () {
+        if (xhr_history.readyState === XMLHttpRequest.DONE) {
+            if (xhr_history.status === 200) {
+                var response = JSON.parse(xhr_history.responseText);
+                console.log('Response:', response);
+            } else {
+                console.error('Error:', xhr_history.statusText);
+            }
+        }
+    };
+
+    xhr_history.send(jsonData_history);
 });
+
+
+
+
+// document.getElementById("left_ul").addEventListener("click", function(e) {
+//     var target = e.target;
+//     if (target.tagName.toLowerCase() === 'li') {
+//       var children = target.querySelectorAll("li");
+//       for (var i = 0; i < children.length; i++) {
+//         if (children[i].style.display === "none") {
+//           children[i].style.display = "block";
+//         } else {
+//           children[i].style.display = "none";
+//         }
+//       }
+//     }
+//   });
