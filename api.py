@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request
 import uvicorn, json, os, glob
 from sqlalchemy import create_engine, text
-import pymysql
+import pymysql, difflib
 import pandas as pd
 from fastapi.middleware.cors import CORSMiddleware
 from config import mysql_host, mysql_port, mysql_db, mysql_name, mysql_password
@@ -171,10 +171,18 @@ class api:
                     return {"status":"success"}
                 else:
                     return {"status": "fail"}
-
-            
-
-    
+        @self.app.post("/search")
+        async def search(request:Request):
+            json_raw = await request.json()
+            json_middle = json.loads(json.dumps(json_raw))
+            search = json_middle.get('search_data')
+            user_id = json_middle.get('user_id')
+            search_df = self.mysql_instance.search_data("hitory", user_id)
+            search_data = search_df['description'].values.tolist()
+            res = difflib.get_close_matches(search, search_data, n=25, cutoff=0.4)
+            result = search_df[search_df['description'].isin(res)]
+            return json.loads(result.to_json(orient='records',force_ascii=False))
+   
 if __name__ == '__main__':
     # 未封装运行
     # uvicorn.run(app, host = "127.0.0.1", port = 8000)
@@ -182,7 +190,3 @@ if __name__ == '__main__':
     mysql_instance = mysql_handler(mysql_name, mysql_password, mysql_host, mysql_port, mysql_db)
     api_instance = api(mysql_instance)
     uvicorn.run(api_instance.app, host = "127.0.0.1", port = 8000)
-
-
-
-
