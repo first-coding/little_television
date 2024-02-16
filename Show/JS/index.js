@@ -35,9 +35,10 @@ document.getElementById("myForm").addEventListener("submit", function (event) {
                 // 提交成功后,继续请求
                 var formData2 = {
                     user_id: sessionStorage.getItem('username'), // 将输入的值放入"path"字段中
-                    table: "files_data"
+                    file_path:document.getElementById("inputField").value,
+                    table: "files_data",
                 };
-
+                console.log(formData2)
                 var jsonData2 = JSON.stringify(formData2); // 将表单数据转换为 JSON 格式
                 var xhr2 = new XMLHttpRequest();
                 xhr2.open("POST", "http://127.0.0.1:8000/get_data", true);
@@ -49,6 +50,7 @@ document.getElementById("myForm").addEventListener("submit", function (event) {
                             var response = JSON.parse(xhr2.responseText);
                             console.log('Response:', response);
                             sessionStorage.setItem('data', JSON.stringify(response));
+                            sessionStorage.setItem('file_path',  JSON.stringify(document.getElementById("inputField").value));
                             // 提交成功后, 插入数据库
                             var formData3 = {
                                 data: {
@@ -57,8 +59,10 @@ document.getElementById("myForm").addEventListener("submit", function (event) {
                                 },
                                 table: "history"
                             };
+                            console.log(formData3)
 
                             var jsonData3 = JSON.stringify(formData3); // 将表单数据转换为 JSON 格式
+                            console.log(jsonData3)
                             var xhr3 = new XMLHttpRequest();
                             xhr3.open("POST", "http://127.0.0.1:8000/update_data", true);
                             xhr3.setRequestHeader("Content-Type", "application/json");
@@ -69,7 +73,7 @@ document.getElementById("myForm").addEventListener("submit", function (event) {
                                         var response = JSON.parse(xhr3.responseText);
                                         console.log('Response:', response);
                                         // 将服务器响应存储在本地存储中
-                                        // window.location.href = "file.html";
+                                        window.location.href = "file.html";
                                     } else {
                                         console.error('Error:', xhr3.statusText);
                                     }
