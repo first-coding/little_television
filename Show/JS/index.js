@@ -69,7 +69,7 @@ document.getElementById("myForm").addEventListener("submit", function (event) {
                                         var response = JSON.parse(xhr3.responseText);
                                         console.log('Response:', response);
                                         // 将服务器响应存储在本地存储中
-                                        window.location.href = "file.html";
+                                        // window.location.href = "file.html";
                                     } else {
                                         console.error('Error:', xhr3.statusText);
                                     }

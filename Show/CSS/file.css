@@ -4,7 +4,7 @@
     margin: 0;
 }
 body {
-    background-color: rgb(245, 245, 245);
+    background-color:white;
     /* overflow: hidden; */
 }
 
@@ -12,7 +12,7 @@ body {
     padding: 0;
     width: 100%;
     position: relative;
-    
+    margin-top: 2px;
 }
 body {
     margin: 0;
@@ -20,10 +20,18 @@ body {
     /* padding-left: 250px; Add a left margin to the body that equals the width of the sidenav */
 }
 
+
+
 .topnav {
     overflow: hidden;
-    background-color: #333;
-    
+    height: 56px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    color: black;
+    padding: 10px;
+    box-shadow: 0 2px 4px 0 white;
 }
 
 .topnav a {
@@ -32,6 +40,54 @@ body {
     color: #f2f2f2;
     text-align: center;
     padding: 14px 16px;
+    text-decoration: none;
+}
+
+#show_hide{
+    background-color:white; 
+    color: black; 
+    border: none; 
+    cursor: pointer; 
+    margin-left: 1%;
+}
+
+#show_hide i{
+    font-size: 30px;
+}
+
+#topnav_search{
+    background-color:white; 
+    color: black; 
+    border: none; 
+    cursor: pointer;
+}
+
+.topnav .logo {
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    margin-left:1%;
+}
+.topnav .search {
+    flex-grow: 1;
+    margin: 0 10px;
+    margin-left: 15%;
+}
+.topnav .search input {
+    width: 65%;
+    height:35px;
+    border-radius: 10px; 
+    border: 1px solid #ccc;
+    padding: 5px;
+    color:black;
+}
+.topnav .icons {
+    display: flex;
+    gap: 10px;
+}
+.topnav .icons a {
+    color: black;
     text-decoration: none;
 }
 
@@ -47,20 +103,31 @@ body {
 }
 
 .sidenav {
-    
     width: 250px; /* Set the width of the sidenav */
     height: 100%;
     /* top: 50px; Adjust this value to move the sidenav below the topnav */
-    background-color: #111;
+    background-color:white;
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.10);   
     /* overflow-x: hidden; */
     /* padding-top: 60px; */
+}        
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+}
+li {
+    display: none;
+    font-size: 15px;
+    color:#818181;
 }
 
 .sidenav a {
     padding: 8px 8px 8px 32px;
     text-decoration: none;
     font-size: 25px;
-    color: #818181;
+    color: black;
     display: block;
     transition: 0.3s;
 }
@@ -92,14 +159,14 @@ h2 {
     flex-wrap: wrap;
     max-height: 85vh;
     /* 设置最大高度 */
-    overflow-y: auto;
+    /* overflow-y: auto; */
     /* 添加垂直滚动条 */
-    overflow-x: hidden;
+    /* overflow-x: hidden; */
     /* 隐藏水平滚动条 */
     padding-right: 17px;
     /* 考虑垂直滚动条宽度 */
     justify-content: space-around;
-    border: 2px solid #000;
+    border: 2px solid white;
     padding: 2%;
     /* 设置外部框相对于视口宽度的内边距 */
     width: 100%;
@@ -125,6 +192,7 @@ h2 {
     /* 设置视频元素宽度为缩略图宽度的 100% */
     height: auto;
     /* 高度自适应 */
+    border-radius: 10px; 
 }
 
 
@@ -177,6 +245,6 @@ h2 {
 .right{
     position: absolute;
     width: 75%;
-    top: 0;
-    right: 45px;
+    top: 50px;
+    right: 7%;
 }
