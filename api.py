@@ -22,9 +22,13 @@ class mysql_handler:
             row_string = ', '.join([f"{column}='{value}'" for column, value in row.items()])
         final_string = f"INSERT INTO {table} {columns_string} VALUES {tuple_string} ON DUPLICATE KEY UPDATE {row_string};"
         return final_string
-    def search_data(self, table_name, user_id):
+    def search_data(self, table_name, user_id, *args):
         engine = create_engine(self.url)
-        query_search = f"select * from {table_name} where user_id = '{user_id}'"
+        if len(args) > 0 :
+            path = args[0]
+            query_search = f"select * from {table_name} where user_id = '{user_id} and file_path = {path}'"
+        else:
+            query_search = f"select * from {table_name} where user_id = '{user_id}'"
         search_df = pd.read_sql_query(query_search, engine)
         return search_df
     
@@ -122,7 +126,11 @@ class api:
             json_middle = json.loads(json.dumps(json_raw))
             user_id = json_middle.get("user_id")
             table_name = json_middle.get("table")
-            search_df = self.mysql_instance.search_data(table_name, user_id)
+            path = json_middle.get("path")
+            if path :
+                search_df = self.mysql_instance.search_data(table_name, user_id, path)
+            else:
+                search_df = self.mysql_instance.search_data(table_name, user_id)
             return json.loads(search_df.to_json(orient='records',force_ascii=False))
 
         @self.app.post("/update_data")
