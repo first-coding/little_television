@@ -20,7 +20,7 @@ class mysql_handler:
         tuple_string = ",".join([str(tuple(x)) for x in df.itertuples(index=False)])
         other_string = tuple_string.split('(')[1].split(')')[0]
         for index, row in df.iterrows():
-            row_string = ', '.join([f"{column}='{value}'" for column, value in row.items()])
+            row_string = ', '.join([f"{column}='{value}'" for column, value in row.items()]).replace('\\',"\\\\")
         and_string = row_string.replace(', ',' and ')
         final_string = f"INSERT INTO {table} {columns_string} SELECT * FROM (SELECT {other_string}) AS tmp WHERE NOT EXISTS (SELECT 1 FROM {table} WHERE {and_string}) ON DUPLICATE KEY UPDATE {row_string};"
         return final_string
@@ -38,7 +38,6 @@ class mysql_handler:
         try:
             engine = create_engine(self.url).connect()
             data_df = pd.DataFrame(data)
-            print(data_df)
             for i in range(len(data_df)):
                 df_handle = data_df.iloc[[i]]
                 insert_string = self.dataframe_sql(table_name, df_handle)
@@ -79,7 +78,6 @@ class mysql_handler:
                 engines = create_engine(self.url).connect()
                 insert_string = f"INSERT INTO {tablename} (user_id,password) VALUES {data['user_id'][0],data['password'][0]}"
                 result = engines.execute(text(insert_string))
-                print(result)
                 engines.commit()
                 engines.close()
                 query_search = f"select user_id from user where user_id = '{data['user_id'][0]}'"
