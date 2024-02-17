@@ -84,12 +84,12 @@ function search_Show_data(searchs_data){
     }
 }
 function Show_play(play_data){
-    console.log(play_data)
+    let targetObject = play_data.find(obj => obj.file_path === decodedUri);
     let pElement = document.querySelector('.text').querySelectorAll('p')
-    let split_data = play_data["file_name"].split("/")
+    console.log(targetObject)
     for(let i=0;i<pElement.length;i++){
-        pElement[0].innerText=split_data[split_data.length-1]
-        pElement[1].innerText=play_data["description"]
+        pElement[0].innerText=targetObject["file_name"]
+        pElement[1].innerText=targetObject["description"]
     }
 }
 document.addEventListener("DOMContentLoaded", function () {
@@ -109,15 +109,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let getdata_json_data = JSON.stringify(get_data); // 将表单数据转换为 JSON 格式
     Send_Post(getdata_json_data, "http://127.0.0.1:8000/get_data").then(function (result) {
+        // let targetObject = result.find(obj => obj.file_name === decodedUri);
+        // Show_play(targetObject)
         console.log(result)
-        let targetObject = result.find(obj => obj.file_name === decodedUri);
-        Show_play(targetObject)
         // right_Show_data(result)
     }).catch(function (error) {
         console.log(error)
     });
 })
-
+Show_play(html_data)
 topnav_search.addEventListener("click",function(){
     let searchs = document.getElementsByName('searchs')[0].value
     let searchs_data = {
