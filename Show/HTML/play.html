@@ -5,18 +5,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Play Video</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="../CSS/play.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 </head>
 
 <body>
-    <h1>Play Video</h1>
-
-    <div class="video-container">
-        <video controls autoplay>
-            Your browser does not support the video tag.
-        </video>
+    <div id="top">
+        <div class="topnav">
+            <button type="submit" id="show_hide"><i class="bi bi-list"></i></button>
+            <div class="logo"><img src="../CSS/img/Designer.png" alt="LittleTelevision" width="70px">LittleTelevision
+            </div>
+            <div class="search">
+                <input type="text" name="searchs" placeholder="搜索">
+                <button type="submit" name="submit_search" id="topnav_search"><i class="bi bi-search"></i></button>
+            </div>
+            <div class="icons">
+                <a href="#"><i class="fas fa-bell"></i></a> <!-- 添加通知图标 -->
+                <a href="#"><i class="fas fa-video"></i></a> <!-- 添加创建视频图标 -->
+                <a href="#"><i class="fas fa-user-circle"></i></a> <!-- 添加用户图标 -->
+            </div>
+        </div>
     </div>
 
+    <div class="contain" id="contains">
+        <div class="left">
+            <div class="video-container">
+                <video controls autoplay>
+                    Your browser     does not support the video tag.
+                </video>
+            </div>
+            <div class="text">
+                <p></p>
+                <p></p>
+            </div>
+        </div>
+        <div class="right">
+            <div class="info">
+            </div>
+        </div>
+    </div>
     <script src="../JS/play.js"></script>
 
 </body>

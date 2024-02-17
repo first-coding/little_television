@@ -97,10 +97,6 @@ body {
     color: black;
 }
 
-.container.open {
-    transform: translateX(250px) scale(0.8);
-    transition: transform .5s ease-out;
-}
 
 .sidenav {
     width: 250px; /* Set the width of the sidenav */
@@ -174,8 +170,24 @@ h2 {
     box-sizing: border-box;
     /*盒子模型设置为边框盒*/
 }
+.search_show{
+    display: flex;
+    margin-bottom: 3%;
+    margin-left: 15%;
+}
 
+.search_show video{
+    width:30%;
+}
 
+.pdiv_show{
+    width:60%;
+    margin-left: 5%;
+}
+
+.pdiv_show p{
+    padding-top: 2%;
+}
 
 .thumbnail {
     width: 30%;

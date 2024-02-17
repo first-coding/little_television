@@ -1,22 +1,26 @@
-var serverResponse = JSON.parse(sessionStorage.getItem('serverResponse'));
-console.log(serverResponse)
 var thumbnailsWrapper = document.getElementById('thumbnailsWrapper');
 var editPanel = document.getElementById('editPanel');
+var saveButton = document.getElementById("saveButton");
+var editTextarea = document.getElementById("editTextarea");
+var topnav_search = document.getElementById("topnav_search")
+
+var serverResponse = JSON.parse(sessionStorage.getItem('serverResponse'));
+console.log(serverResponse)
 var decodedPath
 var json_data = sessionStorage.getItem('data')
 var data = JSON.parse(json_data);
-var file_name, parts_2_name, judgments_name, judgments_flags = 0;
 console.log(data)
+var file_name, parts_2_name, judgments_name, judgments_flags = 0;
 //发送请求
 function Send_Post(formData, url) {
     return new Promise(function (resolve, reject) {
-        var xhr = new XMLHttpRequest();
+        let xhr = new XMLHttpRequest();
         xhr.open("POST", url, true);
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.onreadystatechange = function () {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.status === 200) {
-                    var response = JSON.parse(xhr.responseText);
+                    let response = JSON.parse(xhr.responseText);
                     resolve(response);
                 }
                 else {
@@ -28,7 +32,8 @@ function Send_Post(formData, url) {
     });
 }
 //视频框展示的页面
-function Show_data(serverResponse) {
+function Show_data(serverResponse,data=data) {
+
     thumbnailsWrapper.innerHTML = "";
     if (serverResponse && serverResponse.file_names && serverResponse.types && serverResponse.file_names.length === serverResponse.types.length && serverResponse.file_names.length != 0) {
         // 创建大框容器
@@ -110,7 +115,6 @@ function Show_data(serverResponse) {
                 p.style.marginTop = "2%";
                 p.style.textAlign = "center";
                 let parts = serverResponse['file_names'][i].split("\\")
-                console.log(parts)
                 file_name = parts[parts.length - 1].split('.')[0]
                 p.innerHTML = file_name
                 thumbnailDiv.appendChild(p)
@@ -144,139 +148,129 @@ function Show_data(serverResponse) {
         messageElement.textContent = "No mp4 files found.";
         document.body.appendChild(messageElement);
     }
+    judgments_flags = 0
 }
-Show_data(serverResponse)
-judgments_flags = 0
+Show_data(serverResponse,data)
+function search_Show_data(searchs_data){
+    thumbnailsWrapper.innerHTML = "";
+    if(searchs_data){
+        // 创建大框容器
+        let wrapperDiv = document.createElement('div');
+        wrapperDiv.id = 'thumbnailsWrapper2';
+        searchs_data.forEach(function (item){
+            
+            let div = document.createElement("div");
+            div.className = "search_show"
+            let video = document.createElement("video");
+            video.src = item["file_name"]
+            video.controls=false;
+            div.appendChild(video);
+
+            let pDiv = document.createElement("div");
+            pDiv.className = "pdiv_show"
+            let p1 = document.createElement("p");
+            let p1_file_name = item["file_name"].split("/")
+            p1.textContent = p1_file_name[p1_file_name.length-1].split(".")[0]
+            pDiv.append(p1);
+            let p2 = document.createElement("p")
+            p2.textContent = item["description"]
+            pDiv.appendChild(p2)
+
+            div.appendChild(pDiv);
+            wrapperDiv.appendChild(div)
+            thumbnailsWrapper.append(wrapperDiv)
+        })
+    }
+}
+//获取数据
 document.addEventListener("DOMContentLoaded", function () {
-    var saveButton = document.getElementById("saveButton");
-    var editTextarea = document.getElementById("editTextarea");
     saveButton.addEventListener("click", function () {
-        var textValue = editTextarea.value;
-        var formData = {
+        let textValue = editTextarea.value;
+        let edit_data = {
             data: {
                 user_id: [sessionStorage.getItem('username')], // 将输入的值放入"path"字段中
                 file_name: [decodedPath],
                 description: [textValue],
-                file_path: [sessionStorage.getItem('file_path')]
+                file_path: [sessionStorage.getItem("file_path").replace(/"/g, '')]
             },
             "table": "files_data"
         };
+        let edit_json_data = JSON.stringify(edit_data);
+        // console.log(edit_json_data)
+        Send_Post(edit_json_data, "http://127.0.0.1:8000/update_data").then(function (edit_data_response) {
+            if (edit_data_response["status"] == "success") {
+                let get_data = {
+                    user_id: sessionStorage.getItem('username'), // 将输入的值放入"path"字段中
+                    table: "files_data"
+                };
 
-        var jsonData = JSON.stringify(formData); // 将表单数据转换为 JSON 格式
-        console.log(jsonData)
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "http://127.0.0.1:8000/update_data", true);
-        xhr.setRequestHeader("Content-Type", "application/json");
-
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status === 200) {
-                    var response = JSON.parse(xhr.responseText);
-                    if (response['status'] == "success") {
-                        console.log("success")
-                        var formData2 = {
-                            user_id: sessionStorage.getItem('username'), // 将输入的值放入"path"字段中
-                            table: "files_data"
-                        };
-
-                        var jsonData2 = JSON.stringify(formData2); // 将表单数据转换为 JSON 格式
-                        var xhr2 = new XMLHttpRequest();
-                        xhr2.open("POST", "http://127.0.0.1:8000/get_data", true);
-                        xhr2.setRequestHeader("Content-Type", "application/json");
-
-                        xhr2.onreadystatechange = function () {
-                            if (xhr2.readyState === XMLHttpRequest.DONE) {
-                                if (xhr2.status === 200) {
-                                    var response = JSON.parse(xhr2.responseText);
-                                    data = response
-                                    console.log(data)
-                                    Show_data()
-                                } else {
-                                    console.error('Error:', xhr2.statusText);
-                                }
-                            }
-                        };
-
-                        xhr2.send(jsonData2);
-                    }
-                } else {
-                    console.error('Error:', xhr.statusText);
-                }
+                let getdata_json_data = JSON.stringify(get_data); // 将表单数据转换为 JSON 格式
+                Send_Post(getdata_json_data, "http://127.0.0.1:8000/get_data").then(function (result) {
+                    console.log(result)
+                    Show_data(serverResponse,result)
+                }).catch(function (error) {
+                    console.log(error)
+                    Show_data(serverResponse)
+                });
             }
-        };
+        }).catch(function (error) {
+            console.log(error)
+        });
+    })
 
-        xhr.send(jsonData);
-    });
-
-    var formData_history = {
+    let formData_history = {
         user_id: sessionStorage.getItem('username'),
         table: "history"
     };
-    var jsonData_history = JSON.stringify(formData_history); // 将表单数据转换为 JSON 格式
-    var xhr_history = new XMLHttpRequest();
-    xhr_history.open("POST", "http://127.0.0.1:8000/get_data", true);
-    xhr_history.setRequestHeader("Content-Type", "application/json");
-
-    xhr_history.onreadystatechange = function () {
-        if (xhr_history.readyState === XMLHttpRequest.DONE) {
-            if (xhr_history.status === 200) {
-                var response = JSON.parse(xhr_history.responseText);
-
-                var ul = document.getElementById("left_ul");
-
-                response.forEach(function (item) {
-                    var li = document.createElement("li");
-                    li.appendChild(document.createTextNode(item['history_data']));
-                    ul.appendChild(li);
+    let jsonData_history = JSON.stringify(formData_history); // 将表单数据转换为 JSON 格式
+    Send_Post(jsonData_history, "http://127.0.0.1:8000/get_data").then(function (result) {
+        let ul = document.getElementById("left_ul");
+        result.forEach(function (item) {
+            let li = document.createElement("li");
+            li.appendChild(document.createTextNode(item['history_data']))
+            ul.appendChild(li);
+        })
+        let li_click = document.getElementById("left_ul").querySelectorAll("li")
+        li_click.forEach(function (item) {
+            item.addEventListener("click", function () {
+                let formData_path = {
+                    path: item.innerText // 将输入的值放入"path"字段中
+                };
+                let jsonData = JSON.stringify(formData_path)
+                Send_Post(jsonData, "http://127.0.0.1:8000/get_path").then(function (result) {
+                    let formData2 = {
+                        user_id: sessionStorage.getItem('username'), // 将输入的值放入"path"字段中
+                        file_path:item.innerText,
+                        table: "files_data",
+                    };
+                    console.log(formData2)
+                    let jsonData2 = JSON.stringify(formData2); // 将表单数据转换为 JSON 格式
+                    Send_Post(jsonData2, "http://127.0.0.1:8000/get_data").then(function (results) {
+                        Show_data(result,results)
+                    }).catch(function (error) {
+                        console.log(error)
+                    });
+                }).catch(function (error) {
+                    console.log(error)
                 });
-                var li_click = document.getElementById("left_ul").querySelectorAll("li")
-                console.log(li_click)
+            })
+        });
+    }).catch(function (error) {
+        console.log(error)
+    });
 
-                li_click.forEach(function (item) {
-                    console.log(item)
-                    item.addEventListener("click", function () {
-                        console.log(item.innerText)
-                        var formData_path = {
-                            path: item.innerText // 将输入的值放入"path"字段中
-                        };
-                        var jsonData = JSON.stringify(formData_path);
-                        console.log(jsonData)
-                        Send_Post(jsonData, "http://127.0.0.1:8000/get_path").then(function (result) {
-                            console.log(result)
-                            serverResponse = result
-                            Show_data(serverResponse)
-                        }).catch(function (error) {
-                            console.log(error)
-                        });
-                    })
-                });
-
-            } else {
-                console.error('Error:', xhr_history.statusText);
-            }
+    document.addEventListener('click', function (event) {
+        if (!editPanel.contains(event.target)) {
+            editPanel.style.display = 'none';
+            thumbnailsWrapper.style.width = '100%';
+            editTextarea.value = '';
         }
-    };
+    });
 
-    xhr_history.send(jsonData_history);
-    console.log(data)
-});
-document.addEventListener('click', function (event) {
-    // 检查点击的目标是否是编辑栏以外的区域
-    // console.log('test')
-    if (!editPanel.contains(event.target)) {
-        // console.log("test")
-        // 隐藏编辑栏
-        editPanel.style.display = 'none';
-        // 将缩略图容器的宽度恢复到原始状态
-        thumbnailsWrapper.style.width = '100%';
-        editTextarea.value = '';
-    }
-});
-
+})
 document.getElementById("a_history").addEventListener("click", function () {
-    var x = document.getElementById("left_ul").querySelectorAll("li")
-    console.log(x)
-    for (var i = 0; i < x.length; i++) {
+    let x = document.getElementById("left_ul").querySelectorAll("li")
+    for (let i = 0; i < x.length; i++) {
         if (x[i].style.display === "none") {
             x[i].style.display = "block";
         } else {
@@ -285,3 +279,20 @@ document.getElementById("a_history").addEventListener("click", function () {
     }
 });
 
+// console.log(document.getElementsByName('submit_search'))
+
+topnav_search.addEventListener("click",function(){
+    let searchs = document.getElementsByName('searchs')[0].value
+    let searchs_data = {
+        search_data:searchs,
+        user_id:sessionStorage.getItem('username')
+    }
+    console.log(searchs_data)
+    let search_data_json = JSON.stringify(searchs_data); // 将表单数据转换为 JSON 格式
+    Send_Post(search_data_json, "http://127.0.0.1:8000/search").then(function (result) {
+        console.log(result)
+        search_Show_data(result)
+    }).catch(function (error) {
+        console.log(error)
+    });
+})

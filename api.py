@@ -188,7 +188,7 @@ class api:
             json_middle = json.loads(json.dumps(json_raw))
             search = json_middle.get('search_data')
             user_id = json_middle.get('user_id')
-            search_df = self.mysql_instance.search_data("hitory", user_id)
+            search_df = self.mysql_instance.search_data("files_data", user_id)
             search_data = search_df['description'].values.tolist()
             res = difflib.get_close_matches(search, search_data, n=25, cutoff=0.4)
             result = search_df[search_df['description'].isin(res)]
