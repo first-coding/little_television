@@ -32,7 +32,7 @@ function Send_Post(formData, url) {
     });
 }
 //视频框展示的页面
-function Show_data(serverResponse,data=data) {
+function Show_data(serverResponse, data = data) {
 
     thumbnailsWrapper.innerHTML = "";
     if (serverResponse && serverResponse.file_names && serverResponse.types && serverResponse.file_names.length === serverResponse.types.length && serverResponse.file_names.length != 0) {
@@ -150,27 +150,27 @@ function Show_data(serverResponse,data=data) {
     }
     judgments_flags = 0
 }
-Show_data(serverResponse,data)
-function search_Show_data(searchs_data){
+Show_data(serverResponse, data)
+function search_Show_data(searchs_data) {
     thumbnailsWrapper.innerHTML = "";
-    if(searchs_data){
+    if (searchs_data) {
         // 创建大框容器
         let wrapperDiv = document.createElement('div');
         wrapperDiv.id = 'thumbnailsWrapper2';
-        searchs_data.forEach(function (item){
-            
+        searchs_data.forEach(function (item) {
+
             let div = document.createElement("div");
             div.className = "search_show"
             let video = document.createElement("video");
             video.src = item["file_name"]
-            video.controls=false;
+            video.controls = false;
             div.appendChild(video);
 
             let pDiv = document.createElement("div");
             pDiv.className = "pdiv_show"
             let p1 = document.createElement("p");
             let p1_file_name = item["file_name"].split("/")
-            p1.textContent = p1_file_name[p1_file_name.length-1].split(".")[0]
+            p1.textContent = p1_file_name[p1_file_name.length - 1].split(".")[0]
             pDiv.append(p1);
             let p2 = document.createElement("p")
             p2.textContent = item["description"]
@@ -182,6 +182,38 @@ function search_Show_data(searchs_data){
         })
     }
 }
+function get_html_data() {
+    // 获取id为thumbnailsWrapper2的div
+    let div = document.getElementById('thumbnailsWrapper2');
+
+    // 获取该div内的所有子div
+    let childDivs = div.getElementsByTagName('div');
+
+    // 创建一个空数组来保存所有的数据
+    let html_data = [];
+
+    // 遍历每一个子div
+    Array.from(childDivs).forEach((childDiv) => {
+        // 获取video标签的src
+        let videoSrc = childDiv.querySelector('video').src;
+
+        // 获取所有p标签
+        let pTags = childDiv.querySelectorAll('p');
+
+        // 创建一个新的对象
+        let obj = {
+            file_path: decodeURIComponent(videoSrc),
+            file_name: pTags[0] ? pTags[0].innerText : '',
+            description: pTags[1] ? pTags[1].innerText : ''
+        };
+
+        // 将这个对象添加到数据数组中
+        html_data.push(obj);
+    });
+    // console.log(html_data)
+    sessionStorage.setItem('html_data', JSON.stringify(html_data));
+}
+
 //获取数据
 document.addEventListener("DOMContentLoaded", function () {
     saveButton.addEventListener("click", function () {
@@ -207,7 +239,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 let getdata_json_data = JSON.stringify(get_data); // 将表单数据转换为 JSON 格式
                 Send_Post(getdata_json_data, "http://127.0.0.1:8000/get_data").then(function (result) {
                     console.log(result)
-                    Show_data(serverResponse,result)
+                    Show_data(serverResponse, result)
                 }).catch(function (error) {
                     console.log(error)
                     Show_data(serverResponse)
@@ -240,13 +272,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 Send_Post(jsonData, "http://127.0.0.1:8000/get_path").then(function (result) {
                     let formData2 = {
                         user_id: sessionStorage.getItem('username'), // 将输入的值放入"path"字段中
-                        file_path:item.innerText,
+                        file_path: item.innerText,
                         table: "files_data",
                     };
                     console.log(formData2)
                     let jsonData2 = JSON.stringify(formData2); // 将表单数据转换为 JSON 格式
                     Send_Post(jsonData2, "http://127.0.0.1:8000/get_data").then(function (results) {
-                        Show_data(result,results)
+                        Show_data(result, results)
                     }).catch(function (error) {
                         console.log(error)
                     });
@@ -266,8 +298,9 @@ document.addEventListener("DOMContentLoaded", function () {
             editTextarea.value = '';
         }
     });
-
+    get_html_data()
 })
+
 document.getElementById("a_history").addEventListener("click", function () {
     let x = document.getElementById("left_ul").querySelectorAll("li")
     for (let i = 0; i < x.length; i++) {
@@ -281,11 +314,11 @@ document.getElementById("a_history").addEventListener("click", function () {
 
 // console.log(document.getElementsByName('submit_search'))
 
-topnav_search.addEventListener("click",function(){
+topnav_search.addEventListener("click", function () {
     let searchs = document.getElementsByName('searchs')[0].value
     let searchs_data = {
-        search_data:searchs,
-        user_id:sessionStorage.getItem('username')
+        search_data: searchs,
+        user_id: sessionStorage.getItem('username')
     }
     console.log(searchs_data)
     let search_data_json = JSON.stringify(searchs_data); // 将表单数据转换为 JSON 格式

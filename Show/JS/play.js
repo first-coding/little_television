@@ -1,6 +1,7 @@
 // 从sessionStorage中获取视频路径
 var decodedUri = decodeURI(sessionStorage.getItem('videoSrc'));
-console.log(decodedUri)
+var html_data = JSON.parse(sessionStorage.getItem('html_data'));
+console.log(html_data)
 function Send_Post(formData, url) {
     return new Promise(function (resolve, reject) {
         let xhr = new XMLHttpRequest();
@@ -28,7 +29,7 @@ function right_Show_data(right_data){
             let right_div = document.createElement('div');
             right_div.className='right_data'
             let video = document.createElement("video");
-            video.src = item["file_name"]
+            video.src = item["file_path"]
             video.controls=false;
             right_div.appendChild(video);
 
@@ -48,6 +49,8 @@ function right_Show_data(right_data){
         })
     }
 }
+right_Show_data(html_data)
+
 function search_Show_data(searchs_data){
     var elements = document.getElementById("contains");
     console.log(elements)
@@ -109,7 +112,7 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log(result)
         let targetObject = result.find(obj => obj.file_name === decodedUri);
         Show_play(targetObject)
-        right_Show_data(result)
+        // right_Show_data(result)
     }).catch(function (error) {
         console.log(error)
     });
