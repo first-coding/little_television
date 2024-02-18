@@ -4,7 +4,7 @@ var saveButton = document.getElementById("saveButton");
 var editTextarea = document.getElementById("editTextarea");
 var topnav_search = document.getElementById("topnav_search")
 var myDropdown = document.getElementsByClassName("myDropdown");
-
+var show_hide
 
 var serverResponse = JSON.parse(sessionStorage.getItem('serverResponse'));
 console.log(serverResponse)
@@ -302,8 +302,16 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     get_html_data()
     document.getElementById("show_hide").addEventListener("click",function(){
-        console.elo
-    })
+        if(document.getElementById("mySidenav").style.display!="none"){
+        document.getElementById("mySidenav").style.display="none"
+        document.getElementsByClassName("right")[0].style.width="100%"
+        document.getElementsByClassName("right")[0].style.right="0"
+        }
+        else{
+            document.getElementById("mySidenav").style.display="block"
+            document.getElementsByClassName("right")[0].style.width="75%"
+        }
+        })
 })
 
 document.getElementById("a_history").addEventListener("click", function () {
