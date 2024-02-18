@@ -3,6 +3,8 @@ var editPanel = document.getElementById('editPanel');
 var saveButton = document.getElementById("saveButton");
 var editTextarea = document.getElementById("editTextarea");
 var topnav_search = document.getElementById("topnav_search")
+var myDropdown = document.getElementsByClassName("myDropdown");
+
 
 var serverResponse = JSON.parse(sessionStorage.getItem('serverResponse'));
 console.log(serverResponse)
@@ -299,6 +301,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
     get_html_data()
+    document.getElementById("show_hide").addEventListener("click",function(){
+        console.elo
+    })
 })
 
 document.getElementById("a_history").addEventListener("click", function () {
@@ -311,8 +316,6 @@ document.getElementById("a_history").addEventListener("click", function () {
         }
     }
 });
-
-// console.log(document.getElementsByName('submit_search'))
 
 topnav_search.addEventListener("click", function () {
     let searchs = document.getElementsByName('searchs')[0].value
@@ -329,3 +332,17 @@ topnav_search.addEventListener("click", function () {
         console.log(error)
     });
 })
+
+/* 当用户点击头像时，切换下拉菜单的显示和隐藏 */
+myDropdown[0].addEventListener("click",function(){
+    let s = document.getElementById("user").querySelectorAll('li')
+    s.forEach(function (item){
+        if(item.style.display=="none"){
+            item.style.display='block';
+        }
+        else{
+            item.style.display="none"
+        }
+    })
+})
+

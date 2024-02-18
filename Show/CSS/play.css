@@ -125,6 +125,7 @@ video {
     width: 80%;
     height: auto;
     display: flex;
+    cursor: pointer;
     margin-bottom: 2%;
     margin-left: 7%;
 }

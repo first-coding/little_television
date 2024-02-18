@@ -23,7 +23,7 @@ body {
 
 
 .topnav {
-    overflow: hidden;
+    /* overflow: hidden; */
     height: 56px;
     display: flex;
     justify-content: space-between;
@@ -259,4 +259,26 @@ h2 {
     width: 75%;
     top: 50px;
     right: 7%;
+}
+#user{
+    width: 150px;
+    /* background-color: red; */
+    position:absolute;
+    left: 0;
+    top: 56px;
+    z-index: 50000000;
+
+}
+#user ul li{
+    border: 1px #c9c8c8 solid;  
+    height: 50px;
+    font-size: 10px;
+    text-align: center;
+    line-height: 50px;
+}
+.icons{
+    position: relative;
+}
+.show{
+    display: block;
 }
