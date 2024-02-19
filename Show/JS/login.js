@@ -9,7 +9,7 @@ function toggleForm() {
         registerForm.style.display = 'block';
     }
 }
-
+console.log(history)
 document.getElementById('login').addEventListener('submit', function (e) {
     e.preventDefault();
     var formData = new FormData(this);

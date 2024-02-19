@@ -7,11 +7,9 @@ var myDropdown = document.getElementsByClassName("myDropdown");
 var show_hide
 
 var serverResponse = JSON.parse(sessionStorage.getItem('serverResponse'));
-console.log(serverResponse)
 var decodedPath
 var json_data = sessionStorage.getItem('data')
 var data = JSON.parse(json_data);
-console.log(data)
 var file_name, parts_2_name, judgments_name, judgments_flags = 0;
 //发送请求
 function Send_Post(formData, url) {
@@ -86,15 +84,11 @@ function Show_data(serverResponse, data = data) {
                     event.stopPropagation(); // 阻止事件继续传播到文档级别
                     editPanel.style.display = 'block';
                     let videoSrc_1 = this.querySelector('video').src;
-                    console.log(videoSrc_1)
                     decodedPath = decodeURIComponent(decodeURIComponent(videoSrc_1));
                     document.getElementById('thumbnailsWrapper').style.width = '70%';
-                    console.log(decodedPath)
-                    console.log(data.file_name)
                     var foundData = data.find(function (item) {
                         return item.file_name === decodedPath;
                     });
-                    console.log(foundData)
                     if (foundData) {
                         editTextarea.value = foundData.description;
                     }
@@ -132,7 +126,6 @@ function Show_data(serverResponse, data = data) {
                     p2.style.textAlign = "center";
                     let parts_2 = data[judgments_flags]['description']
                     p2.innerHTML = parts_2
-                    console.log(data[judgments_flags]['file_name'])
                     thumbnailDiv.appendChild(p2)
                     judgments_flags = judgments_flags + 1
                 }
@@ -259,10 +252,15 @@ document.addEventListener("DOMContentLoaded", function () {
     let jsonData_history = JSON.stringify(formData_history); // 将表单数据转换为 JSON 格式
     Send_Post(jsonData_history, "http://127.0.0.1:8000/get_data").then(function (result) {
         let ul = document.getElementById("left_ul");
+        let a = ul.querySelector('a')
         result.forEach(function (item) {
             let li = document.createElement("li");
+            li.style.display="block"
+            let a2 = document.createElement("a");
+            a2.style.display="none"
+            a2.append(li)
             li.appendChild(document.createTextNode(item['history_data']))
-            ul.appendChild(li);
+            a.insertAdjacentElement('afterend',a2)
         })
         let li_click = document.getElementById("left_ul").querySelectorAll("li")
         li_click.forEach(function (item) {
@@ -301,22 +299,38 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
     get_html_data()
-    document.getElementById("show_hide").addEventListener("click",function(){
-        if(document.getElementById("mySidenav").style.display!="none"){
-        document.getElementById("mySidenav").style.display="none"
-        document.getElementsByClassName("right")[0].style.width="100%"
-        document.getElementsByClassName("right")[0].style.right="0"
+    document.getElementById("show_hide").addEventListener("click", function () {
+        if (document.getElementById("mySidenav").style.display != "none") {
+            document.getElementById("mySidenav").style.display = "none"
+            document.getElementsByClassName("right")[0].style.width = "100%"
+            document.getElementsByClassName("right")[0].style.right = "0"
         }
-        else{
-            document.getElementById("mySidenav").style.display="block"
-            document.getElementsByClassName("right")[0].style.width="75%"
+        else {
+            document.getElementById("mySidenav").style.display = "block"
+            document.getElementsByClassName("right")[0].style.width = "75%"
         }
+    })
+    myDropdown[0].addEventListener("click", function () {
+        let s = document.getElementById("user").querySelectorAll('li')
+        s.forEach(function (item) {
+            if (item.style.display == "none") {
+                item.style.display = 'block';
+            }
+            else {
+                item.style.display = "none"
+            }
         })
+    })
+
+    let li = document.querySelector('#user ul li');
+    li.addEventListener('click', function () {
+        history.go(-3)
+    });
 })
 
 document.getElementById("a_history").addEventListener("click", function () {
-    let x = document.getElementById("left_ul").querySelectorAll("li")
-    for (let i = 0; i < x.length; i++) {
+    let x = document.getElementById("left_ul").querySelectorAll("a")
+    for (let i = 1; i < x.length-12; i++) {
         if (x[i].style.display === "none") {
             x[i].style.display = "block";
         } else {
@@ -339,18 +353,5 @@ topnav_search.addEventListener("click", function () {
     }).catch(function (error) {
         console.log(error)
     });
-})
-
-/* 当用户点击头像时，切换下拉菜单的显示和隐藏 */
-myDropdown[0].addEventListener("click",function(){
-    let s = document.getElementById("user").querySelectorAll('li')
-    s.forEach(function (item){
-        if(item.style.display=="none"){
-            item.style.display='block';
-        }
-        else{
-            item.style.display="none"
-        }
-    })
 })
 

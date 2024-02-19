@@ -137,6 +137,16 @@ li {
     font-size: 36px;
     margin-left: 100px;
 }
+
+#left_ul a i{
+    padding-right: 3%;
+    padding-left: 3%;
+}
+
+#left_ul a{
+    padding-top: 5%;
+}
+
 h1,
 h2 {
     text-align: center;

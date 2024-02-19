@@ -159,5 +159,14 @@ document.addEventListener("DOMContentLoaded", function () {
             flash_play(result)
         })
     });
-
+    document.getElementById("left").style.display = "none"
+    document.getElementById("show_hide").addEventListener("click", function () {
+        // console.log(document.getElementsByClassName("right")[0].offsetHeight)
+        if (document.getElementById("left").style.display != "none") {
+            document.getElementById("left").style.display = "none"
+        }
+        else {
+            document.getElementById("left").style.display = "block"
+        }
+    })
 })

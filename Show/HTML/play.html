@@ -14,7 +14,7 @@
     <div id="top">
         <div class="topnav">
             <button type="submit" id="show_hide"><i class="bi bi-list"></i></button>
-            <div class="logo"><img src="../CSS/img/Designer.png" alt="LittleTelevision" width="70px">LittleTelevision
+            <div class="logo"><img src="../CSS/img/Designer.png" id="logo" alt="LittleTelevision" width="70px">LittleTelevision
             </div>
             <div class="search">
                 <input type="text" name="searchs" placeholder="搜索">
@@ -29,10 +29,18 @@
     </div>
 
     <div class="contain" id="contains">
-        <div class="left">
+        <div class="left" id="left">
+            <div id="mySidenav" class="sidenav">
+                <ul id="left_ul">
+                    <a id="a_history"><i class="bi bi-clock-history"></i>历史记录</a>
+                    
+                </ul>
+            </div>
+        </div>
+        <div class="middle">
             <div class="video-container">
                 <video controls autoplay>
-                    Your browser     does not support the video tag.
+                    Your browser does not support the video tag.
                 </video>
             </div>
             <div class="text">
