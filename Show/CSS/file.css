@@ -100,7 +100,7 @@ body {
 
 .sidenav {
     width: 250px; /* Set the width of the sidenav */
-    height: 100%;
+    height: auto;
     /* top: 50px; Adjust this value to move the sidenav below the topnav */
     background-color:white;
     box-shadow: 0 0 5px 0 rgba(0,0,0,0.10);   

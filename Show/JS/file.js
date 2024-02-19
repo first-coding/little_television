@@ -5,7 +5,7 @@ var editTextarea = document.getElementById("editTextarea");
 var topnav_search = document.getElementById("topnav_search")
 var myDropdown = document.getElementsByClassName("myDropdown");
 var show_hide
-
+console.log(history)
 var serverResponse = JSON.parse(sessionStorage.getItem('serverResponse'));
 var decodedPath
 var json_data = sessionStorage.getItem('data')
@@ -323,8 +323,9 @@ document.addEventListener("DOMContentLoaded", function () {
     })
 
     let li = document.querySelector('#user ul li');
+    console.log(li);
     li.addEventListener('click', function () {
-        history.go(-3)
+        history.go(-2)
     });
 })
 

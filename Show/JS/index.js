@@ -1,4 +1,5 @@
 var history_data = sessionStorage.getItem('history_data')
+console.log(history)
 var optionsData = JSON.parse(history_data);
 function generateOptions() {
     var datalist = document.getElementById('options');

@@ -117,4 +117,5 @@ document.getElementById('register').addEventListener('submit', function (e) {
     };
 
     xhr.send(jsonData);
+    console.log(history)
 });
