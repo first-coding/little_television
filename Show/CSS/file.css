@@ -164,21 +164,14 @@ h2 {
     flex-direction: row;
     flex-wrap: wrap;
     max-height: 85vh;
-    /* 设置最大高度 */
     /* overflow-y: auto; */
-    /* 添加垂直滚动条 */
     /* overflow-x: hidden; */
-    /* 隐藏水平滚动条 */
     padding-right: 17px;
-    /* 考虑垂直滚动条宽度 */
     justify-content: space-around;
     border: 2px solid white;
     padding: 2%;
-    /* 设置外部框相对于视口宽度的内边距 */
     width: 100%;
-    /* 设置外部框宽度为视口宽度的 96% */
     box-sizing: border-box;
-    /*盒子模型设置为边框盒*/
 }
 .search_show{
     display: flex;

@@ -127,6 +127,31 @@ body {
     padding-top: 2%;
 }
 
+.info{
+    max-height: 75vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: transparent transparent; /* Firefox */
+}
+
+.info::-webkit-scrollbar { /* Chrome, Safari 和 Opera */
+    width: 20px;
+}
+
+.info::-webkit-scrollbar-thumb { /* Chrome, Safari 和 Opera */
+    background-color: transparent;
+}
+
+/* 鼠标悬停时显示滚动条 */
+.info:hover {
+    scrollbar-color: rgba(0, 0, 0, 0.5) rgba(0, 0, 0, 0); /* Firefox */
+}
+
+.info:hover::-webkit-scrollbar-thumb { /* Chrome, Safari 和 Opera */
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
 .text{
     padding-top:2%;
 }
