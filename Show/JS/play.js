@@ -1,6 +1,9 @@
 // 从sessionStorage中获取视频路径
 var decodedUri = decodeURI(sessionStorage.getItem('videoSrc'));
 var html_data = JSON.parse(sessionStorage.getItem('html_data'));
+var elements = document.getElementById("contains");
+var middle = document.getElementsByClassName("middle")[0]
+var right = document.getElementsByClassName("right")[0]
 function Send_Post(formData, url) {
     return new Promise(function (resolve, reject) {
         let xhr = new XMLHttpRequest();
@@ -49,16 +52,41 @@ function right_Show_data(right_data) {
     }
 }
 
+function Show_play(play_data, play_src) {
+    if ((middle && !elements.contains(middle)) || (right && !elements.contains(right))) {
+        if (middle && !elements.contains(middle)) {
+            elements.appendChild(middle);
+        }
+        if (right && !elements.contains(right)) {
+            elements.appendChild(right);
+        }
+    }
+    if(document.getElementsByClassName("search_show").length!=0){
+        Array.from(document.getElementsByClassName("search_show")).forEach(function(item){
+            elements.removeChild(item)
+        })
+    }
+    if (play_src) {
+        var videoElement = document.querySelector('video');
+        videoElement.src = play_src;
+    } else {
+        console.error('Video source not found.');
+    }
+    let targetObject = play_data.find(obj => obj.file_path === play_src);
+    let pElement = document.querySelector('.text').querySelectorAll('p')
+    for (let i = 0; i < pElement.length; i++) {
+        pElement[0].innerText = targetObject["file_name"]
+        pElement[1].innerText = targetObject["description"] 
+    }
+}
+
 function search_Show_data(searchs_data) {
-    var elements = document.getElementById("contains");
-    console.log(elements)
-    elements.innerHTML = ""
+    elements.removeChild(middle)
+    elements.removeChild(right)
     if (searchs_data) {
-        // 创建大框容器
         let wrapperDiv = document.createElement('div');
         wrapperDiv.id = 'thumbnailsWrapper2';
         searchs_data.forEach(function (item) {
-
             let div = document.createElement("div");
             div.className = "search_show"
             let video = document.createElement("video");
@@ -75,24 +103,12 @@ function search_Show_data(searchs_data) {
             let p2 = document.createElement("p")
             p2.textContent = item["description"]
             pDiv.appendChild(p2)
-
+            div.addEventListener("click", function(){
+                Show_play(html_data,item['file_name'])
+            })
             div.appendChild(pDiv);
             elements.appendChild(div)
         })
-    }
-}
-function Show_play(play_data, play_src) {
-    if (play_src) {
-        var videoElement = document.querySelector('video');
-        videoElement.src = play_src;
-    } else {
-        console.error('Video source not found.');
-    }
-    let targetObject = play_data.find(obj => obj.file_path === play_src);
-    let pElement = document.querySelector('.text').querySelectorAll('p')
-    for (let i = 0; i < pElement.length; i++) {
-        pElement[0].innerText = targetObject["file_name"]
-        pElement[1].innerText = targetObject["description"]
     }
 }
 function flash_play(flash_data){
@@ -169,4 +185,44 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("left").style.display = "block"
         }
     })
+    document.getElementsByClassName("logo")[0].addEventListener("click",function(){
+        history.back()
+    })
+    let formData_history = {
+        user_id: sessionStorage.getItem('username'),
+        table: "history"
+    };
+    let jsonData_history = JSON.stringify(formData_history); // 将表单数据转换为 JSON 格式
+    Send_Post(jsonData_history, "http://127.0.0.1:8000/get_data").then(function (result) {
+        let ul = document.getElementById("left_ul");
+        let a = ul.querySelector('a')
+        result.forEach(function (item) {
+            let li = document.createElement("li");
+            li.style.display="block"
+            let a2 = document.createElement("a");
+            a2.style.display="none"
+            a2.append(li)
+            li.appendChild(document.createTextNode(item['history_data']))
+            a.insertAdjacentElement('afterend',a2)
+        })
+        let li_click = document.getElementById("left_ul").querySelectorAll("li")
+        li_click.forEach(function (item) {
+            item.addEventListener("click", function () {
+                console.log(item)
+            })
+        });
+    }).catch(function (error) {
+        console.log(error)
+    });
+
+    document.getElementById("a_history").addEventListener("click", function () {
+        let x = document.getElementById("left_ul").querySelectorAll("a")
+        for (let i = 1; i < x.length-12; i++) {
+            if (x[i].style.display === "none") {
+                x[i].style.display = "block";
+            } else {
+                x[i].style.display = "none";
+            }
+        }
+    });
 })

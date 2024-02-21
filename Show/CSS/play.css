@@ -54,6 +54,7 @@ body {
     display: flex;
     align-items: center;
     margin-left:1%;
+    cursor: pointer;
 }
 .topnav .search {
     flex-grow: 1;
@@ -89,6 +90,7 @@ body {
     position: relative;
     display: flex;
     margin-top: 2px;
+    flex-wrap: wrap;
 }
 
 .left{
@@ -101,6 +103,57 @@ body {
     box-shadow: 0 0 5px 0 rgba(0,0,0,0.10);   
     position: absolute;
     flex-grow: 1;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+    
+    font-size: 36px;
+    margin-left: 100px;
+}
+
+.sidenav {
+    width: 250px;
+    height: auto;
+    background-color:white;
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.10);   
+}      
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: black;
+    display: block;
+    transition: 0.3s;
+}
+
+li {
+    display: none;
+    font-size: 15px;
+    color: #818181;
+}
+
+#left_ul a {
+    padding-top: 5%;
+}
+#left_ul a i{
+    padding-right: 3%;
+    padding-left: 3%;
+}
+
+#left_ul a{
+    padding-top: 5%;
 }
 
 .left a{
@@ -145,7 +198,7 @@ body {
 
 /* 鼠标悬停时显示滚动条 */
 .info:hover {
-    scrollbar-color: rgba(0, 0, 0, 0.5) rgba(0, 0, 0, 0); /* Firefox */
+    scrollbar-color: rgba(0, 0, 0, 0.5) rgba(0, 0, 0, 0); 
 }
 
 .info:hover::-webkit-scrollbar-thumb { /* Chrome, Safari 和 Opera */

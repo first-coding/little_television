@@ -36,7 +36,7 @@ document.getElementById("myForm").addEventListener("submit", function (event) {
                 // 提交成功后,继续请求
                 var formData2 = {
                     user_id: sessionStorage.getItem('username'), // 将输入的值放入"path"字段中
-                    file_path:document.getElementById("inputField").value,
+                    file_path: document.getElementById("inputField").value,
                     table: "files_data",
                 };
                 console.log(formData2)
@@ -51,7 +51,7 @@ document.getElementById("myForm").addEventListener("submit", function (event) {
                             var response = JSON.parse(xhr2.responseText);
                             console.log('Response:', response);
                             sessionStorage.setItem('data', JSON.stringify(response));
-                            sessionStorage.setItem('file_path',  JSON.stringify(document.getElementById("inputField").value));
+                            sessionStorage.setItem('file_path', JSON.stringify(document.getElementById("inputField").value));
                             // 提交成功后, 插入数据库
                             var formData3 = {
                                 data: {

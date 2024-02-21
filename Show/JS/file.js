@@ -255,12 +255,12 @@ document.addEventListener("DOMContentLoaded", function () {
         let a = ul.querySelector('a')
         result.forEach(function (item) {
             let li = document.createElement("li");
-            li.style.display="block"
+            li.style.display = "block"
             let a2 = document.createElement("a");
-            a2.style.display="none"
+            a2.style.display = "none"
             a2.append(li)
             li.appendChild(document.createTextNode(item['history_data']))
-            a.insertAdjacentElement('afterend',a2)
+            a.insertAdjacentElement('afterend', a2)
         })
         let li_click = document.getElementById("left_ul").querySelectorAll("li")
         li_click.forEach(function (item) {
@@ -278,6 +278,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     console.log(formData2)
                     let jsonData2 = JSON.stringify(formData2); // 将表单数据转换为 JSON 格式
                     Send_Post(jsonData2, "http://127.0.0.1:8000/get_data").then(function (results) {
+                        console.log(results)
                         Show_data(result, results)
                     }).catch(function (error) {
                         console.log(error)
@@ -331,7 +332,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 document.getElementById("a_history").addEventListener("click", function () {
     let x = document.getElementById("left_ul").querySelectorAll("a")
-    for (let i = 1; i < x.length-12; i++) {
+    for (let i = 1; i < x.length - 12; i++) {
         if (x[i].style.display === "none") {
             x[i].style.display = "block";
         } else {
