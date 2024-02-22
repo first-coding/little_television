@@ -209,6 +209,7 @@ document.addEventListener("DOMContentLoaded", function () {
         li_click.forEach(function (item) {
             item.addEventListener("click", function () {
                 console.log(item)
+                
             })
         });
     }).catch(function (error) {

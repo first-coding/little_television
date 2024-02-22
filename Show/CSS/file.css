@@ -20,7 +20,9 @@ body {
     /* padding-left: 250px; Add a left margin to the body that equals the width of the sidenav */
 }
 
-
+#user_icon{
+    cursor: pointer;
+}
 
 .topnav {
     /* overflow: hidden; */

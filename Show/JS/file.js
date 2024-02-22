@@ -3,15 +3,14 @@ var editPanel = document.getElementById('editPanel');
 var saveButton = document.getElementById("saveButton");
 var editTextarea = document.getElementById("editTextarea");
 var topnav_search = document.getElementById("topnav_search")
-var myDropdown = document.getElementsByClassName("myDropdown");
+var user_icon = document.getElementById("user_icon")
 var show_hide
-console.log(history)
-var serverResponse = JSON.parse(sessionStorage.getItem('serverResponse'));
-var decodedPath
+var serverResponse = JSON.parse(sessionStorage.getItem('serverResponse')); //目录下文件
+var decodedPath //一个全局变量，解析路径
 var json_data = sessionStorage.getItem('data')
-var data = JSON.parse(json_data);
+var data = JSON.parse(json_data); //缩略图的需要的数据
 var file_name, parts_2_name, judgments_name, judgments_flags = 0;
-//发送请求
+//发送请求函数（xhr）
 function Send_Post(formData, url) {
     return new Promise(function (resolve, reject) {
         let xhr = new XMLHttpRequest();
@@ -31,9 +30,9 @@ function Send_Post(formData, url) {
         xhr.send(formData);
     });
 }
-//视频框展示的页面
-function Show_data(serverResponse, data = data) {
 
+//视频框展示的页面(右边内容)
+function Show_data(serverResponse, data = data) {
     thumbnailsWrapper.innerHTML = "";
     if (serverResponse && serverResponse.file_names && serverResponse.types && serverResponse.file_names.length === serverResponse.types.length && serverResponse.file_names.length != 0) {
         // 创建大框容器
@@ -69,13 +68,6 @@ function Show_data(serverResponse, data = data) {
                     videoElement.addEventListener('canplay', function () {
                         // 在 Canvas 上绘制当前视频帧
                         context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-
-                        // // 创建图像对象，获取绘制在 Canvas 上的图像数据
-                        // var thumbnailImage = new Image();
-                        // thumbnailImage.src = canvas.toDataURL('image/jpeg');
-
-                        // // 将图像对象添加到缩略图容器中
-                        // thumbnailDiv.appendChild(thumbnailImage);
                     }, false);
                 }, false);
 
@@ -146,6 +138,7 @@ function Show_data(serverResponse, data = data) {
     judgments_flags = 0
 }
 Show_data(serverResponse, data)
+//搜索数据的显示
 function search_Show_data(searchs_data) {
     thumbnailsWrapper.innerHTML = "";
     if (searchs_data) {
@@ -180,13 +173,10 @@ function search_Show_data(searchs_data) {
 function get_html_data() {
     // 获取id为thumbnailsWrapper2的div
     let div = document.getElementById('thumbnailsWrapper2');
-
     // 获取该div内的所有子div
     let childDivs = div.getElementsByTagName('div');
-
     // 创建一个空数组来保存所有的数据
     let html_data = [];
-
     // 遍历每一个子div
     Array.from(childDivs).forEach((childDiv) => {
         // 获取video标签的src
@@ -205,7 +195,7 @@ function get_html_data() {
         // 将这个对象添加到数据数组中
         html_data.push(obj);
     });
-    // console.log(html_data)
+    console.log(html_data)
     sessionStorage.setItem('html_data', JSON.stringify(html_data));
 }
 
@@ -244,6 +234,8 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log(error)
         });
     })
+
+    //上面的是点击保存，将数据保存并刷新页面。
 
     let formData_history = {
         user_id: sessionStorage.getItem('username'),
@@ -291,6 +283,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }).catch(function (error) {
         console.log(error)
     });
+    //上面是导航栏历史记录点击然后点击不同的li渲染出不同的内容
 
     document.addEventListener('click', function (event) {
         if (!editPanel.contains(event.target)) {
@@ -311,7 +304,13 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementsByClassName("right")[0].style.width = "75%"
         }
     })
-    myDropdown[0].addEventListener("click", function () {
+
+    let s = document.getElementById("user").querySelectorAll('li')
+    s.forEach(function (item) {
+        item.style.display="none"
+    })
+
+    user_icon.addEventListener("click", function () {
         let s = document.getElementById("user").querySelectorAll('li')
         s.forEach(function (item) {
             if (item.style.display == "none") {
